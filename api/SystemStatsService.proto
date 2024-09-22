@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package stats;
+option go_package = "./pb;";
+
+service SystemStatsService {
+    rpc ObserveSystemStats(SystemStatsRequest) returns (stream SystemStatsPb) {}
+}
+
+/*
+ * каждые send_period секунд выдавать информацию, усреднённую за calc_period секунд
+ */
+message SystemStatsRequest {
+    uint32 send_period = 1;
+    uint32 calc_period = 2;
+}
+
+message SystemStatsPb {
+    LoadAvgStatsPb load_avg_stats = 1;
+    CpuStatsPb cpu_stats = 2;
+    DisksLoadStatsPb disks_load_stats = 3;
+    FilesystemsStatsPb filesystems_stats = 4;
+}
+
+message LoadAvgStatsPb {
+    // за 1 минуту
+	double load_avg1 = 1;
+    // за 5 минут
+	double load_avg5 = 2;
+    // за 15 минут
+	double load_avg15 = 3;
+}
+
+message CpuStatsPb {
+    double user_mode = 1;
+    double system_mode = 2;
+    double idle = 3;
+}
+
+message DisksLoadStatsPb {
+    repeated DiskLoadStatsPb disks = 1;
+}
+
+message DiskLoadStatsPb {
+    string disk = 1;
+    double tps = 2;
+    double kbs = 3;
+}
+
+message FilesystemsStatsPb {
+    repeated FilesystemStatsPb filesystems = 1;
+}
+
+message FilesystemStatsPb {
+    string filesystem = 1;
+    string mounted_on = 2;
+    double used_mb = 3;
+    double used_percent = 4;
+    double used_inode = 5;
+    double used_inode_percent = 6;
+}

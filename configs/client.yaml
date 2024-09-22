@@ -1,0 +1,10 @@
+# Logger config
+logger:
+  level: "DEBUG"
+# GRPC server config
+grpcClient:
+  grpcUrl: ${DAEMON_GRPC_URL}
+# App config
+app:
+  sendPeriodSeconds: 5
+  calcPeriodSeconds: 15

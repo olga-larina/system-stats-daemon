@@ -1,0 +1,15 @@
+services:
+
+  stats_client:
+    image: system-stats-client:develop
+    build:
+      context: ..
+      dockerfile: ./build/client/Dockerfile
+    environment:
+      - DAEMON_GRPC_URL=${DAEMON_GRPC_URL}
+    volumes:
+      - "../configs/client.yaml:/etc/stats/client.yaml"
+    restart: always
+    depends_on:
+      stats_daemon:
+        condition: service_healthy
