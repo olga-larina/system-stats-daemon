@@ -1,0 +1,21 @@
+services:
+
+  stats_daemon:
+    image: system-stats-daemon:develop
+    build:
+      context: ..
+      dockerfile: ./build/daemon/Dockerfile
+    environment:
+      - GRPC_SERVER_PORT=${GRPC_SERVER_PORT}
+    ports:
+      - "8081:8081"
+    volumes:
+      - "../configs/daemon.yaml:/etc/stats/daemon.yaml"
+    restart: always
+    healthcheck:
+      test: ["CMD", "sh", "-c", "grpc_health_probe -addr=localhost:${GRPC_SERVER_PORT}"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    init: true  # включение инициатора процесса для обработки сигналов

@@ -1,0 +1,16 @@
+services:
+
+  stats_integration_tests:
+    container_name: system-stats-integration-tests
+    image: system-stats-integration-tests:develop
+    build:
+      context: ..
+      dockerfile: ./build/integration_tests/Dockerfile
+    environment: 
+      - DAEMON_GRPC_URL=${DAEMON_GRPC_URL}
+    volumes:
+      - "../configs/integration_tests.yaml:/etc/integration_tests/config.yaml"
+    restart: "no"
+    depends_on:
+      stats_daemon:
+        condition: service_healthy

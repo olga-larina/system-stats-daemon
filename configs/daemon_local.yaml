@@ -1,0 +1,16 @@
+# Logger config
+logger:
+  level: "DEBUG"
+# GRPC server config
+grpcServer:
+  port: 8081
+# App config
+app:
+  collectCronSpec: "* * * * * *" # каждую секунду
+  collectTimeout: 500ms
+  metrics: # какие метрики будут собираться
+    la: true
+    cpu: true
+    disksLoad: true
+    filesystem: true
+    

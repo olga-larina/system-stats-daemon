@@ -1,0 +1,10 @@
+# Logger config
+logger:
+  level: "DEBUG"
+# GRPC server config
+grpcClient:
+  grpcUrl: localhost:8081
+# App config
+app:
+  sendPeriodSeconds: 5
+  calcPeriodSeconds: 15
